@@ -1,4 +1,4 @@
-const CACHE_NAME = 'messapp-v1';
+const CACHE_NAME = 'messapp-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -27,8 +27,18 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (url.origin !== self.location.origin) return;
 
+  // Stale-While-Revalidate: return cache immediately for instant loading, update cache in background
   e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
+    caches.match(e.request).then((cached) => {
+      const networkFetch = fetch(e.request).then((networkRes) => {
+        if (networkRes && networkRes.status === 200) {
+          const resClone = networkRes.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
+        }
+        return networkRes;
+      }).catch(() => cached);
+      return cached || networkFetch;
+    })
   );
 });
 
