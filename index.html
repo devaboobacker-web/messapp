@@ -30,12 +30,12 @@ window.fs = { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs 
 <style>
 :root{--g:#0f4c3a;--g2:#1b7a5a;--gold:#f2b84b;--bg:#f3f5f2;--card:#fff;--ink:#16231e;--mut:#6b7a73;--line:#e3e8e4;--red:#d9483b;--ok:#1b9e6b}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
-html,body{height:100%}
-body{background:var(--bg);color:var(--ink);overscroll-behavior:none}
+html{height:100%;height:100dvh;width:100%;overflow:hidden;overscroll-behavior:none}
+body{height:100%;height:100dvh;width:100%;position:fixed;inset:0;overflow:hidden;background:var(--bg);color:var(--ink);overscroll-behavior:none;-webkit-overflow-scrolling:touch}
 button{border:0;background:none;cursor:pointer;color:inherit}
 input,select{font-size:16px}
-#app{max-width:480px;margin:0 auto;height:100%;height:100dvh;display:none;flex-direction:column;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.1)}
-.top{background:linear-gradient(135deg,rgba(16,75,55,.9) 0%,rgba(10,50,36,.96) 100%);color:#fff;padding:calc(env(safe-area-inset-top) + 12px) 16px 14px;border-radius:0 0 22px 22px;flex-shrink:0;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(255,255,255,.15);box-shadow:0 4px 20px rgba(5,25,17,.25);position:relative;z-index:30;overflow:hidden}
+#app{position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:100%;height:100dvh;display:none;flex-direction:column;background:var(--bg);overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.1)}
+.top{background:linear-gradient(135deg,rgba(16,75,55,.9) 0%,rgba(10,50,36,.96) 100%);color:#fff;padding:calc(env(safe-area-inset-top) + 12px) 16px 14px;border-radius:0 0 22px 22px;flex-shrink:0;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(255,255,255,.15);box-shadow:0 4px 20px rgba(5,25,17,.25);position:relative;z-index:30;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
 .top::before{content:'';position:absolute;top:-45px;right:-25px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(242,184,75,.35) 0%,rgba(242,184,75,.08) 50%,transparent 70%);pointer-events:none;filter:blur(18px)}
 .top::after{content:'';position:absolute;bottom:-40px;left:-20px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(46,203,139,.4) 0%,rgba(46,203,139,.1) 50%,transparent 70%);pointer-events:none;filter:blur(20px)}
 .top-row{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:2}
@@ -48,7 +48,7 @@ input,select{font-size:16px}
 .out:active{transform:scale(.92);background:rgba(239,68,68,.35);border-color:rgba(239,68,68,.5)}
 .top-install-btn{background:rgba(255,255,255,.14);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#fff;padding:6px 12px;border-radius:20px;font-size:.76rem;font-weight:600;display:none;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.28);box-shadow:0 2px 8px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.35);transition:all .2s ease}
 .top-install-btn:active{transform:scale(.95);background:rgba(255,255,255,.24)}
-.scroll{flex:1;min-height:0;overflow-y:auto;padding:12px 14px calc(env(safe-area-inset-bottom) + 85px);margin-top:0;-webkit-overflow-scrolling:touch}
+.scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:12px 14px calc(env(safe-area-inset-bottom) + 85px);margin-top:0;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y}
 .tab{display:none}
 .tab.on{display:block}
 #today-list{display:flex;flex-direction:column;gap:12px;margin:0}
@@ -162,7 +162,7 @@ input,select{font-size:16px}
 .rep-check{color:#34d399;font-size:1.2rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;filter:drop-shadow(0 2px 6px rgba(39,195,133,.4))}
 .rep-skipped{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:.74rem;color:var(--mut);display:flex;align-items:center;gap:5px}
 .empty{text-align:center;color:var(--mut);padding:24px 0;font-size:.88rem}
-.nav{position:absolute;left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;padding:8px 8px calc(env(safe-area-inset-bottom) + 8px);box-shadow:0 -4px 20px rgba(0,0,0,.08);border-radius:22px 22px 0 0;border-top:1px solid rgba(15,76,58,.08)}
+.nav{position:absolute;left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;padding:8px 8px calc(env(safe-area-inset-bottom) + 8px);box-shadow:0 -4px 20px rgba(0,0,0,.08);border-radius:22px 22px 0 0;border-top:1px solid rgba(15,76,58,.08);touch-action:none;user-select:none;-webkit-user-select:none}
 @media (max-width:360px){
   .top{padding:calc(env(safe-area-inset-top) + 10px) 12px 12px}
   .uname{font-size:.95rem}
@@ -238,6 +238,117 @@ input,select{font-size:16px}
 .settings-switch.on{background:var(--ok);border-color:#169462;box-shadow:0 0 10px rgba(27,158,107,.35)}
 .settings-switch.on::after{transform:translateX(20px)}
 .settings-actions{display:flex;gap:10px;margin-top:14px}
+
+/* Skeletons & Shimmer Animation */
+@keyframes shimmerWave {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.sk-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.sk-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
+  animation: shimmerWave 1.6s infinite ease-in-out;
+  pointer-events: none;
+}
+.sk-shimmer-light {
+  position: relative;
+  overflow: hidden;
+}
+.sk-shimmer-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%);
+  animation: shimmerWave 1.6s infinite ease-in-out;
+  pointer-events: none;
+}
+.meal-sk {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(145deg, #183329 0%, #0d2119 100%);
+  border-radius: 22px;
+  padding: 16px 18px;
+  margin-bottom: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px rgba(13, 33, 25, 0.18);
+  position: relative;
+  overflow: hidden;
+  min-height: 86px;
+  box-sizing: border-box;
+}
+.meal-sk .sk-ic {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+.meal-sk .sk-tx {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.meal-sk .sk-bar {
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.09);
+}
+.meal-sk .sk-sw {
+  width: 52px;
+  height: 30px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+.day-sk {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 14px 12px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 10px rgba(15, 76, 58, 0.05);
+}
+.day-sk .day-h-sk {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.day-sk .sk-pill {
+  border-radius: 16px;
+  background: #f1f5f2;
+  border: 1.5px solid #dce5df;
+  padding: 14px 6px;
+  min-height: 86px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.sk-bar-light {
+  border-radius: 6px;
+  background: #e2ebe5;
+}
+.rep-day-sk {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  box-shadow: 0 3px 12px rgba(15, 76, 58, 0.05);
+}
 </style>
 </head>
 <body>
@@ -307,12 +418,44 @@ input,select{font-size:16px}
         <div class="dateline" style="margin:0"><div><h2 id="today-title">Today</h2><small id="today-sub"></small></div><span class="chip ok" id="today-count">0 booked</span></div>
       </div>
       <div class="notice" id="notice"></div>
-      <div id="today-list"></div>
+      <div id="today-list">
+        <div class="meal-sk sk-shimmer">
+          <div class="sk-ic"></div>
+          <div class="sk-tx">
+            <div class="sk-bar" style="width:36%;height:18px"></div>
+            <div class="sk-bar" style="width:68%;height:14px"></div>
+            <div class="sk-bar" style="width:45%;height:12px"></div>
+          </div>
+          <div class="sk-sw"></div>
+        </div>
+        <div class="meal-sk sk-shimmer">
+          <div class="sk-ic"></div>
+          <div class="sk-tx">
+            <div class="sk-bar" style="width:40%;height:18px"></div>
+            <div class="sk-bar" style="width:72%;height:14px"></div>
+            <div class="sk-bar" style="width:50%;height:12px"></div>
+          </div>
+          <div class="sk-sw"></div>
+        </div>
+        <div class="meal-sk sk-shimmer">
+          <div class="sk-ic"></div>
+          <div class="sk-tx">
+            <div class="sk-bar" style="width:34%;height:18px"></div>
+            <div class="sk-bar" style="width:60%;height:14px"></div>
+            <div class="sk-bar" style="width:42%;height:12px"></div>
+          </div>
+          <div class="sk-sw"></div>
+        </div>
+      </div>
     </div>
     <!-- WEEK -->
     <div class="tab" id="t-week">
-      <div class="week-nav"><button onclick="shiftWeek(-1)"><i class="fa-solid fa-chevron-left"></i></button><b id="week-label"></b><button onclick="shiftWeek(1)"><i class="fa-solid fa-chevron-right"></i></button></div>
-      <div id="week-list"></div>
+      <div class="week-nav"><button onclick="shiftWeek(-1)"><i class="fa-solid fa-chevron-left"></i></button><b id="week-label">Loading week...</b><button onclick="shiftWeek(1)"><i class="fa-solid fa-chevron-right"></i></button></div>
+      <div id="week-list">
+        <div class="day-sk"><div class="day-h-sk"><div class="sk-bar-light sk-shimmer-light" style="width:28%;height:15px"></div><div class="sk-bar-light sk-shimmer-light" style="width:20%;height:12px"></div></div><div class="pills"><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:60%;height:12px"></div><div class="sk-bar-light" style="width:75%;height:9px"></div></div><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:55%;height:12px"></div><div class="sk-bar-light" style="width:70%;height:9px"></div></div><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:50%;height:12px"></div><div class="sk-bar-light" style="width:65%;height:9px"></div></div></div></div>
+        <div class="day-sk"><div class="day-h-sk"><div class="sk-bar-light sk-shimmer-light" style="width:32%;height:15px"></div><div class="sk-bar-light sk-shimmer-light" style="width:20%;height:12px"></div></div><div class="pills"><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:58%;height:12px"></div><div class="sk-bar-light" style="width:72%;height:9px"></div></div><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:62%;height:12px"></div><div class="sk-bar-light" style="width:68%;height:9px"></div></div><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:48%;height:12px"></div><div class="sk-bar-light" style="width:70%;height:9px"></div></div></div></div>
+        <div class="day-sk"><div class="day-h-sk"><div class="sk-bar-light sk-shimmer-light" style="width:26%;height:15px"></div><div class="sk-bar-light sk-shimmer-light" style="width:20%;height:12px"></div></div><div class="pills"><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:54%;height:12px"></div><div class="sk-bar-light" style="width:70%;height:9px"></div></div><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:50%;height:12px"></div><div class="sk-bar-light" style="width:74%;height:9px"></div></div><div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:56%;height:12px"></div><div class="sk-bar-light" style="width:66%;height:9px"></div></div></div></div>
+      </div>
     </div>
     <!-- REPORT -->
     <div class="tab" id="t-report">
@@ -321,14 +464,19 @@ input,select{font-size:16px}
         <div class="row"><button class="btn" style="flex:1;padding:9px;background:#eef3ef;color:var(--g)" onclick="cycle('prev')">Previous</button><button class="btn" style="flex:1;padding:9px" onclick="cycle('cur')">This month</button></div>
         <div class="row" style="margin:0"><input class="in" type="date" id="r-from"><input class="in" type="date" id="r-to"><button class="btn" style="padding:0 14px" onclick="loadReport()"><i class="fa-solid fa-filter"></i></button></div>
       </div>
-      <div id="report-list"></div>
+      <div id="report-list">
+        <div class="rep-day-sk"><div class="day-h" style="margin-bottom:12px"><div class="sk-bar-light sk-shimmer-light" style="width:30%;height:16px"></div><div style="display:flex;gap:6px"><div class="sk-bar-light sk-shimmer-light" style="width:45px;height:20px;border-radius:10px"></div><div class="sk-bar-light sk-shimmer-light" style="width:45px;height:20px;border-radius:10px"></div></div></div><div class="rep-meals-list"><div class="meal-sk sk-shimmer" style="padding:13px 15px;border-radius:18px"><div class="sk-ic" style="width:44px;height:44px;border-radius:14px"></div><div class="sk-tx"><div class="sk-bar" style="width:35%;height:16px"></div><div class="sk-bar" style="width:70%;height:13px"></div><div class="sk-bar" style="width:45%;height:12px"></div></div></div></div></div>
+        <div class="rep-day-sk"><div class="day-h" style="margin-bottom:12px"><div class="sk-bar-light sk-shimmer-light" style="width:34%;height:16px"></div><div style="display:flex;gap:6px"><div class="sk-bar-light sk-shimmer-light" style="width:45px;height:20px;border-radius:10px"></div><div class="sk-bar-light sk-shimmer-light" style="width:45px;height:20px;border-radius:10px"></div></div></div><div class="rep-meals-list"><div class="meal-sk sk-shimmer" style="padding:13px 15px;border-radius:18px"><div class="sk-ic" style="width:44px;height:44px;border-radius:14px"></div><div class="sk-tx"><div class="sk-bar" style="width:30%;height:16px"></div><div class="sk-bar" style="width:65%;height:13px"></div><div class="sk-bar" style="width:40%;height:12px"></div></div></div></div></div>
+      </div>
     </div>
     <!-- KITCHEN (admin) -->
     <div class="tab" id="t-admin">
       <div class="card">
         <div class="row"><input class="in" type="date" id="k-date" onchange="loadKitchen()"><button class="btn wa" onclick="shareKitchen()"><i class="fa-brands fa-whatsapp"></i> Share</button></div>
         <div class="kcount"><div><b id="kc-b">0</b>Breakfast</div><div><b id="kc-l">0</b>Lunch</div><div><b id="kc-d">0</b>Dinner</div></div>
-        <div class="klist" id="k-lists"></div>
+        <div class="klist" id="k-lists">
+          <div style="margin-bottom:16px"><div class="sk-bar-light sk-shimmer-light" style="width:32%;height:16px;margin:10px 0 8px;border-radius:6px"></div><div class="sk-bar-light sk-shimmer-light" style="width:100%;height:32px;margin-bottom:6px;border-radius:8px"></div><div class="sk-bar-light sk-shimmer-light" style="width:88%;height:32px;margin-bottom:6px;border-radius:8px"></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -377,7 +525,7 @@ input,select{font-size:16px}
 <script>
 const MEALS=[{k:'breakfast',n:'Breakfast',e:'🌅',icon:'fa-mug-hot',cut:6,ct:'6:00 AM'},{k:'lunch',n:'Lunch',e:'☀️',icon:'fa-bowl-rice',cut:10,ct:'10:00 AM'},{k:'dinner',n:'Dinner',e:'🌙',icon:'fa-moon',cut:16,ct:'4:00 PM'}];
 const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-let me=null,menu={},cfg={},rate=41,bk={},weekBase=new Date(),kitchen={date:'',breakfast:[],lunch:[],dinner:[]},guestTokens={};
+let me=null,menu={},cfg={},rate=41,bk={},weekBase=new Date(),kitchen={date:'',breakfast:[],lunch:[],dinner:[]},guestTokens={},isDataLoaded=false;
 const $=id=>document.getElementById(id);
 const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const dmy=s=>s?s.split('-').reverse().join('-'):'';
@@ -423,30 +571,178 @@ async function resetPw(){
 function enter(u){me=u;localStorage.setItem('snec_mess_session',JSON.stringify(u));boot()}
 function confirmLogout(){modal('Log out?','You will need to sign in again.',[{l:'Cancel',cls:'#8a9a92'},{l:'Log out',cls:'#d9483b',f:()=>{localStorage.removeItem('snec_mess_session');location.reload()}}])}
 
+/* ---------- SKELETON LOADERS ---------- */
+function getTodaySkeletonHtml(){
+  return [1,2,3].map(()=>`
+    <div class="meal-sk sk-shimmer">
+      <div class="sk-ic"></div>
+      <div class="sk-tx">
+        <div class="sk-bar" style="width:36%;height:18px"></div>
+        <div class="sk-bar" style="width:68%;height:14px"></div>
+        <div class="sk-bar" style="width:45%;height:12px"></div>
+      </div>
+      <div class="sk-sw"></div>
+    </div>
+  `).join('');
+}
+
+function getWeekSkeletonHtml(){
+  return [0,1,2,3,4,5,6].map(()=>`
+    <div class="day-sk">
+      <div class="day-h-sk">
+        <div class="sk-bar-light sk-shimmer-light" style="width:28%;height:15px"></div>
+        <div class="sk-bar-light sk-shimmer-light" style="width:20%;height:12px"></div>
+      </div>
+      <div class="pills">
+        <div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:60%;height:12px"></div><div class="sk-bar-light" style="width:75%;height:9px"></div></div>
+        <div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:55%;height:12px"></div><div class="sk-bar-light" style="width:70%;height:9px"></div></div>
+        <div class="sk-pill sk-shimmer-light"><div class="sk-bar-light" style="width:24px;height:24px;border-radius:8px"></div><div class="sk-bar-light" style="width:50%;height:12px"></div><div class="sk-bar-light" style="width:65%;height:9px"></div></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getReportSkeletonHtml(){
+  return [1,2,3].map(()=>`
+    <div class="rep-day-sk">
+      <div class="day-h" style="margin-bottom:12px">
+        <div class="sk-bar-light sk-shimmer-light" style="width:30%;height:16px"></div>
+        <div style="display:flex;gap:6px">
+          <div class="sk-bar-light sk-shimmer-light" style="width:45px;height:20px;border-radius:10px"></div>
+          <div class="sk-bar-light sk-shimmer-light" style="width:45px;height:20px;border-radius:10px"></div>
+        </div>
+      </div>
+      <div class="rep-meals-list">
+        <div class="meal-sk sk-shimmer" style="padding:13px 15px;border-radius:18px">
+          <div class="sk-ic" style="width:44px;height:44px;border-radius:14px"></div>
+          <div class="sk-tx">
+            <div class="sk-bar" style="width:35%;height:16px"></div>
+            <div class="sk-bar" style="width:70%;height:13px"></div>
+            <div class="sk-bar" style="width:45%;height:12px"></div>
+          </div>
+        </div>
+        <div class="meal-sk sk-shimmer" style="padding:13px 15px;border-radius:18px">
+          <div class="sk-ic" style="width:44px;height:44px;border-radius:14px"></div>
+          <div class="sk-tx">
+            <div class="sk-bar" style="width:30%;height:16px"></div>
+            <div class="sk-bar" style="width:65%;height:13px"></div>
+            <div class="sk-bar" style="width:40%;height:12px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getKitchenSkeletonHtml(){
+  return ['Breakfast','Lunch','Dinner'].map(meal=>`
+    <div style="margin-bottom:16px">
+      <div class="sk-bar-light sk-shimmer-light" style="width:32%;height:16px;margin:10px 0 8px;border-radius:6px"></div>
+      <div class="sk-bar-light sk-shimmer-light" style="width:100%;height:32px;margin-bottom:6px;border-radius:8px"></div>
+      <div class="sk-bar-light sk-shimmer-light" style="width:88%;height:32px;margin-bottom:6px;border-radius:8px"></div>
+      <div class="sk-bar-light sk-shimmer-light" style="width:94%;height:32px;margin-bottom:6px;border-radius:8px"></div>
+    </div>
+  `).join('');
+}
+
+function showSkeleton(t){
+  if(t==='today'){$('today-list').innerHTML=getTodaySkeletonHtml()}
+  else if(t==='week'){$('week-list').innerHTML=getWeekSkeletonHtml()}
+  else if(t==='report'){$('report-list').innerHTML=getReportSkeletonHtml()}
+  else if(t==='admin'){$('k-lists').innerHTML=getKitchenSkeletonHtml()}
+}
+
+function showAllSkeletons(){
+  const tEl=$('today-list');if(tEl)tEl.innerHTML=getTodaySkeletonHtml();
+  const wEl=$('week-list');if(wEl)wEl.innerHTML=getWeekSkeletonHtml();
+  const rEl=$('report-list');if(rEl)rEl.innerHTML=getReportSkeletonHtml();
+  const kEl=$('k-lists');if(kEl)kEl.innerHTML=getKitchenSkeletonHtml();
+}
+
 /* ---------- BOOT ---------- */
 async function boot(){
   $('auth').style.display='none';$('app').style.display='flex';
-  const h=new Date().getHours();
+  const now=new Date(),h=now.getHours();
   $('greet').textContent=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
   $('uname').textContent=me.name;$('utok').textContent='#'+(me.token||'');
   $('n-admin').style.display=isAdmin()?'flex':'none';
+  $('today-title').textContent='Today, '+DAYS[now.getDay()];
+  $('today-sub').textContent=now.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+
+  const initNav=localStorage.getItem('snec_mess_nav')||'today';
+  isDataLoaded=false;
+
+  // Immediately render skeletons across all tabs so NO tab is ever blank or missing
+  showAllSkeletons();
+  ['today','week','report','admin'].forEach(x=>{$('t-'+x).classList.toggle('on',x===initNav);$('n-'+x).classList.toggle('on',x===initNav)});
+
+  // Fetch live data from network
   try{
-    const [m,r,g]=await Promise.all([fs.getDoc(fs.doc(db,'settings','weekly_menu')),fs.getDoc(fs.doc(db,'settings','point_rate')),fs.getDoc(fs.doc(db,'settings','guest_tokens'))]);
-    menu=m.exists()?m.data():{};if(r.exists()&&r.data().rate)rate=parseFloat(r.data().rate)||41;if(g.exists())guestTokens=g.data();
-    cfg={};(await fs.getDocs(fs.collection(db,'date_configs'))).forEach(x=>cfg[x.id]=x.data());
-  }catch(e){console.error(e)}
+    const [m,r,g]=await Promise.all([
+      fs.getDoc(fs.doc(db,'settings','weekly_menu')),
+      fs.getDoc(fs.doc(db,'settings','point_rate')),
+      fs.getDoc(fs.doc(db,'settings','guest_tokens'))
+    ]);
+    if(m.exists()){menu=m.data();localStorage.setItem('snec_cache_menu',JSON.stringify(menu))}
+    if(r.exists()&&r.data().rate){rate=parseFloat(r.data().rate)||41;localStorage.setItem('snec_cache_rate',String(rate))}
+    if(g.exists()){guestTokens=g.data();localStorage.setItem('snec_cache_guest',JSON.stringify(guestTokens))}
+
+    const cfgDocs=await fs.getDocs(fs.collection(db,'date_configs'));
+    cfg={};
+    cfgDocs.forEach(x=>cfg[x.id]=x.data());
+    localStorage.setItem('snec_cache_cfg',JSON.stringify(cfg));
+  }catch(e){
+    console.error('Data sync note:',e);
+    // Offline / slow fallback
+    try{
+      const cMenu=JSON.parse(localStorage.getItem('snec_cache_menu')||'null');
+      const cCfg=JSON.parse(localStorage.getItem('snec_cache_cfg')||'null');
+      const cRate=parseFloat(localStorage.getItem('snec_cache_rate')||'0');
+      const cGuest=JSON.parse(localStorage.getItem('snec_cache_guest')||'null');
+      if(cMenu)menu=cMenu;
+      if(cCfg)cfg=cCfg;
+      if(cRate)rate=cRate;
+      if(cGuest)guestTokens=cGuest;
+    }catch(err){}
+  }
+
   await loadBookings();
-  go(localStorage.getItem('snec_mess_nav')||'today');
+  isDataLoaded=true;
+
+  // Once all bookings and menus are ready, render the active tab cleanly
+  const curNav=localStorage.getItem('snec_mess_nav')||'today';
+  go(curNav);
+
   updateInstallUI();
 }
+
 async function loadBookings(){
-  bk={};
-  try{(await fs.getDocs(fs.query(fs.collection(db,'bookings'),fs.where('token','==',me.token)))).forEach(x=>{const d=x.data();bk[d.date+'_'+d.meal]={on:d.action==='book',guests:parseInt(d.guests)||0}})}catch(e){console.error(e)}
+  try{
+    const snap=await fs.getDocs(fs.query(fs.collection(db,'bookings'),fs.where('token','==',me.token)));
+    const freshBk={};
+    snap.forEach(x=>{
+      const d=x.data();
+      freshBk[d.date+'_'+d.meal]={on:d.action==='book',guests:parseInt(d.guests)||0};
+    });
+    bk=freshBk;
+    localStorage.setItem('snec_cache_bk',JSON.stringify(bk));
+  }catch(e){
+    console.error('Bookings sync note:',e);
+    try{
+      const cBk=JSON.parse(localStorage.getItem('snec_cache_bk')||'null');
+      if(cBk)bk=cBk;
+    }catch(err){}
+  }
 }
+
 function go(t){
   localStorage.setItem('snec_mess_nav',t);
   ['today','week','report','admin'].forEach(x=>{$('t-'+x).classList.toggle('on',x===t);$('n-'+x).classList.toggle('on',x===t)});
   document.querySelector('.scroll').scrollTop=0;
+  if(!isDataLoaded){
+    showSkeleton(t);
+    return;
+  }
   if(t==='today')renderToday();
   if(t==='week')renderWeek();
   if(t==='report'){if(!$('r-from').value)cycle('cur');else loadReport()}
@@ -476,8 +772,9 @@ async function toggle(date,k){
   bk[key]={on,guests:g};refresh();
   try{
     await fs.setDoc(fs.doc(db,'bookings',`${me.token}_${date}_${k}`),{token:me.token,name:me.name,category:me.category||'OTHER',date,meal:k,action:on?'book':'cancel',guests:g,timestamp:new Date().toISOString()});
+    localStorage.setItem('snec_cache_bk',JSON.stringify(bk));
     toast(on?m.n+' booked ✓':m.n+' cancelled');
-  }catch(e){bk[key]={on:!on,guests:g};refresh();toast('Could not save. Check connection.')}
+  }catch(e){bk[key]={on:!on,guests:g};refresh();localStorage.setItem('snec_cache_bk',JSON.stringify(bk));toast('Could not save. Check connection.')}
 }
 function refresh(){if($('t-today').classList.contains('on'))renderToday();if($('t-week').classList.contains('on'))renderWeek()}
 
@@ -755,6 +1052,10 @@ function updateUrgentReminderBanner(date){
 
 /* ---------- TODAY ---------- */
 function renderToday(){
+  if(!isDataLoaded){
+    showSkeleton('today');
+    return;
+  }
   const now=new Date(),date=ymd(now);
   $('today-title').textContent='Today, '+DAYS[now.getDay()];
   $('today-sub').textContent=now.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
@@ -780,7 +1081,7 @@ function renderToday(){
 }
 
 function tickTodayCountdowns(){
-  if(!me||!$('t-today')||!$('t-today').classList.contains('on'))return;
+  if(!me||!isDataLoaded||!$('t-today')||!$('t-today').classList.contains('on'))return;
   const now=new Date(),date=ymd(now);
   const prefs=getNotifPrefs();
   let needsRerender=false;
@@ -800,11 +1101,12 @@ function tickTodayCountdowns(){
 }
 
 /* ---------- WEEK ---------- */
-function shiftWeek(d){weekBase.setDate(weekBase.getDate()+d*7);renderWeek()}
+function shiftWeek(d){weekBase.setDate(weekBase.getDate()+d*7);if(isDataLoaded)renderWeek();else showSkeleton('week')}
 async function renderWeek(){
   const sun=new Date(weekBase);sun.setDate(sun.getDate()-sun.getDay());
   const sat=new Date(sun);sat.setDate(sun.getDate()+6);
   $('week-label').textContent=`${dmy(ymd(sun)).slice(0,5)} → ${dmy(ymd(sat)).slice(0,5)}`;
+  if(!isDataLoaded){showSkeleton('week');return}
   const today=ymd(new Date());let h='';
   for(let x=0;x<7;x++){
     const d=new Date(sun);d.setDate(sun.getDate()+x);const ds=ymd(d);
@@ -829,6 +1131,10 @@ function cycle(t){
   $('r-from').value=ymd(new Date(n.getFullYear(),m,26));$('r-to').value=ymd(new Date(n.getFullYear(),m+1,25));loadReport();
 }
 function loadReport(){
+  if(!isDataLoaded){
+    $('report-list').innerHTML=getReportSkeletonHtml();
+    return;
+  }
   const f=$('r-from').value,t=$('r-to').value,days={};
   Object.keys(bk).forEach(k=>{const[d,m]=k.split('_');if(!bk[k].on||(f&&d<f)||(t&&d>t))return;(days[d]=days[d]||{})[m]=bk[k].guests});
   const isG=String(me.token).includes('_GUEST')||isNaN(me.token)||Object.values(guestTokens).map(String).includes(String(me.token));
@@ -893,6 +1199,7 @@ function loadReport(){
 /* ---------- KITCHEN (admin) ---------- */
 async function loadKitchen(){
   const date=$('k-date').value;if(!date)return;
+  $('k-lists').innerHTML=getKitchenSkeletonHtml();
   kitchen={date,breakfast:[],lunch:[],dinner:[]};
   try{
     (await fs.getDocs(fs.query(fs.collection(db,'bookings'),fs.where('date','==',date),fs.where('action','==','book')))).forEach(x=>{
@@ -998,6 +1305,20 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW registration note:', e));
   });
+}
+
+// Lock window scroll position so mobile keyboard or rubber-banding never scrolls top or bottom bars
+window.addEventListener('scroll', () => {
+  if (window.scrollY !== 0 || window.scrollX !== 0) {
+    window.scrollTo(0, 0);
+  }
+}, { passive: true });
+document.addEventListener('focusout', () => {
+  window.scrollTo(0, 0);
+});
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => window.scrollTo(0, 0));
+  window.visualViewport.addEventListener('scroll', () => window.scrollTo(0, 0));
 }
 
 /* ---------- INIT ---------- */
